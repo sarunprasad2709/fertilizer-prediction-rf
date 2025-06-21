@@ -1,0 +1,193 @@
+Setting up environment for Fertilizer Prediction Challenge
+============================================================
+All packages installed successfully!
+
+Setting up Kaggle API credentials
+============================================================
+Please upload your kaggle.json file when prompted...
+kaggle.json
+kaggle.json(application/json) - 69 bytes, last modified: 6/20/2025 - 100% done
+Saving kaggle.json to kaggle.json
+Kaggle credentials set up successfully!
+
+Downloading dataset from Kaggle
+============================================================
+Downloading playground-series-s5e6.zip to /content
+  0% 0.00/11.7M [00:00<?, ?B/s]
+100% 11.7M/11.7M [00:00<00:00, 910MB/s]
+
+Downloaded files:
+  • test.csv (9.0 MB)
+  • sample_submission.csv (7.2 MB)
+  • train.csv (31.9 MB)
+Dataset downloaded successfully!
+
+Loading and exploring the dataset
+============================================================
+Dataset Shapes:
+  • Training data: (750000, 10)
+  • Test data: (250000, 9)
+  • Sample submission: (250000, 2)
+
+Training Data Info:
+  • Columns: ['id', 'Temparature', 'Humidity', 'Moisture', 'Soil Type', 'Crop Type', 'Nitrogen', 'Potassium', 'Phosphorous', 'Fertilizer Name']
+  • Data types:
+    - id: int64
+    - Temparature: int64
+    - Humidity: int64
+    - Moisture: int64
+    - Soil Type: object
+    - Crop Type: object
+    - Nitrogen: int64
+    - Potassium: int64
+    - Phosphorous: int64
+    - Fertilizer Name: object
+
+Target Variable Analysis:
+  • Unique fertilizers: 7
+  • Most common fertilizers:
+    1. 14-35-14: 114436 samples
+    2. 10-26-26: 113887 samples
+    3. 17-17-17: 112453 samples
+    4. 28-28: 111158 samples
+    5. 20-20: 110889 samples
+    6. DAP: 94860 samples
+    7. Urea: 92317 samples
+
+Sample Training Data:
+   id  Temparature  Humidity  Moisture Soil Type  Crop Type  Nitrogen  \
+0   0           37        70        36    Clayey  Sugarcane        36   
+1   1           27        69        65     Sandy    Millets        30   
+2   2           29        63        32     Sandy    Millets        24   
+3   3           35        62        54     Sandy     Barley        39   
+4   4           35        58        43       Red      Paddy        37   
+
+   Potassium  Phosphorous Fertilizer Name  
+0          4            5           28-28  
+1          6           18           28-28  
+2         12           16        17-17-17  
+3         12            4        10-26-26  
+4          2           16             DAP  
+
+Sample Test Data:
+       id  Temparature  Humidity  Moisture Soil Type    Crop Type  Nitrogen  \
+0  750000           31        70        52     Sandy        Wheat        34   
+1  750001           27        62        45       Red    Sugarcane        30   
+2  750002           28        72        28    Clayey  Ground Nuts        14   
+3  750003           37        53        57     Black  Ground Nuts        18   
+4  750004           31        55        32       Red       Pulses        13   
+
+   Potassium  Phosphorous  
+0         11           24  
+1         14           15  
+2         15            4  
+3         17           36  
+4         19           14  
+
+ Sample Submission Format:
+       id         Fertilizer Name
+0  750000  14-35-14 10-26-26 Urea
+1  750001  14-35-14 10-26-26 Urea
+2  750002  14-35-14 10-26-26 Urea
+3  750003  14-35-14 10-26-26 Urea
+4  750004  14-35-14 10-26-26 Urea
+
+Starting model training pipeline
+============================================================
+Starting data preprocessing...
+  • Training features shape: (750000, 9)
+  • Test features shape: (250000, 9)
+  • Handling missing values...
+  • Categorical features (2): ['Soil Type', 'Crop Type']
+  • Numerical features (6): ['Temparature', 'Humidity', 'Moisture', 'Nitrogen', 'Potassium', 'Phosphorous']
+Preprocessing pipeline created successfully!
+Training Random Forest model...
+  • Training set: 600000 samples
+  • Validation set: 150000 samples
+  • Fitting Random Forest...
+[Parallel(n_jobs=-1)]: Using backend ThreadingBackend with 2 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  46 tasks      | elapsed:   40.0s
+[Parallel(n_jobs=-1)]: Done 100 out of 100 | elapsed:  1.5min finished
+[Parallel(n_jobs=2)]: Using backend ThreadingBackend with 2 concurrent workers.
+  • Evaluating on validation set...
+[Parallel(n_jobs=2)]: Done  46 tasks      | elapsed:    1.7s
+[Parallel(n_jobs=2)]: Done 100 out of 100 | elapsed:    3.7s finished
+  • Validation Accuracy: 0.1734
+[Parallel(n_jobs=2)]: Using backend ThreadingBackend with 2 concurrent workers.
+[Parallel(n_jobs=2)]: Done  46 tasks      | elapsed:    1.7s
+[Parallel(n_jobs=2)]: Done 100 out of 100 | elapsed:    4.5s finished
+  • Validation MAP@3: 0.3036
+  • Training on full dataset...
+[Parallel(n_jobs=-1)]: Using backend ThreadingBackend with 2 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  46 tasks      | elapsed:   52.6s
+[Parallel(n_jobs=-1)]: Done 100 out of 100 | elapsed:  1.8min finished
+[Parallel(n_jobs=2)]: Using backend ThreadingBackend with 2 concurrent workers.
+Model training completed!
+Generating predictions...
+  • Computing prediction probabilities...
+[Parallel(n_jobs=2)]: Done  46 tasks      | elapsed:    2.9s
+[Parallel(n_jobs=2)]: Done 100 out of 100 | elapsed:    6.3s finished
+  • Number of classes: 7
+  • Test samples: 250000
+  • Generating top-3 predictions...
+    Processed 10000/250000 samples
+    Processed 20000/250000 samples
+    Processed 30000/250000 samples
+    Processed 40000/250000 samples
+    Processed 50000/250000 samples
+    Processed 60000/250000 samples
+    Processed 70000/250000 samples
+    Processed 80000/250000 samples
+    Processed 90000/250000 samples
+    Processed 100000/250000 samples
+    Processed 110000/250000 samples
+    Processed 120000/250000 samples
+    Processed 130000/250000 samples
+    Processed 140000/250000 samples
+    Processed 150000/250000 samples
+    Processed 160000/250000 samples
+    Processed 170000/250000 samples
+    Processed 180000/250000 samples
+    Processed 190000/250000 samples
+    Processed 200000/250000 samples
+    Processed 210000/250000 samples
+    Processed 220000/250000 samples
+    Processed 230000/250000 samples
+    Processed 240000/250000 samples
+    Processed 250000/250000 samples
+Predictions generated successfully!
+
+Submission Summary:
+  • Submission shape: (250000, 2)
+  • Sample predictions:
+       id             Fertilizer Name
+0  750000          28-28 10-26-26 DAP
+1  750001  17-17-17 14-35-14 10-26-26
+2  750002        28-28 20-20 10-26-26
+3  750003      Urea 17-17-17 14-35-14
+4  750004     20-20 10-26-26 17-17-17
+5  750005     14-35-14 28-28 17-17-17
+6  750006     28-28 10-26-26 17-17-17
+7  750007       DAP 17-17-17 14-35-14
+8  750008     10-26-26 14-35-14 20-20
+9  750009     20-20 14-35-14 17-17-17
+
+Feature Importance Analysis
+============================================================
+Top 15 Most Important Features:
+            feature  importance
+        Phosphorous    0.171028
+           Nitrogen    0.169856
+           Moisture    0.157496
+           Humidity    0.153170
+          Potassium    0.135941
+        Temparature    0.135468
+      Soil Type_Red    0.007977
+    Soil Type_Black    0.007657
+    Soil Type_Loamy    0.007458
+    Soil Type_Sandy    0.007105
+   Soil Type_Clayey    0.006240
+  Crop Type_Millets    0.004290
+   Crop Type_Barley    0.004282
+Crop Type_Oil seeds    0.004201
+  Crop Type_Tobacco    0.004199
